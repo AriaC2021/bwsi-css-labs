@@ -9,7 +9,7 @@ and prints the result to the terminal window.
 
 """
 
-def simple_calculator(operation: str, num1: float, num2: float) -> float:
+def simple_calculator(operator: str, num1: float, num2: float) -> float:
     """
     Function that takes in two numbers and an operation (add, subtract, multiply, divide),
     then performs the operation on the two numbers and returns the result.
@@ -23,32 +23,49 @@ def simple_calculator(operation: str, num1: float, num2: float) -> float:
         float: The result of the operation.
     """
 
-    if operation == "add":
+    if operator == "add":
         return num1 + num2
-    elif operation == "subtract":
+    elif operator == "subtract":
         return num1 - num2
-    elif operation == "multiply":
+    elif operator == "multiply":
         return num1 * num2
-    elif operation == "divide":
+    elif operator == "divide":
         if num2 != 0:
             return num1 / num2
         else:
             raise ValueError("Cannot divide by zero.")
     else:
-        raise ValueError("Invalid operation. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+        raise ValueError("Invalid operator. Please choose from 'add', 'subtract', 'multiply', or 'divide'.")
+
+def request_valid_num(prompt: str) -> float:
+    """
+    Function to request a valid number for the calculator
+
+    Returns:
+        float: the user's valid numeric input
+    """
+    while True:
+        try:
+            number = float(input(prompt))
+            return number
+        except ValueError:
+            print("Invalid input. Please enter a valid number.")
 
 def main():
     
     print(f"===== Simple Calculator =====")
 
     # Ask the user for sample input    
-    num1 = float(input("Enter the first number: "))
-    num2 = float(input("Enter the second number: "))
-    operation = input("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
+    num1 = request_valid_num("Enter the first number: ")
+    num2 = request_valid_num("Enter the second number: ")
+    operator = input("Enter the operation (add, subtract, multiply, divide): ").strip().lower()
 
     # Perform the calculation and display the result
-    result = simple_calculator(operation, num1, num2)
-    print(f"The result of {operation}ing {num1} and {num2} is: {result}")
+    try:
+        result = simple_calculator(operator, num1, num2)
+        print(f"The result of {operator}ing {num1} and {num2} is: {result}")
+    except ValueError as e:
+        print(f"Calculation Error: {e}")
 
 
 if __name__ == "__main__":
